@@ -1,0 +1,105 @@
+#
+# variables
+#
+variable "vsphere_username" {}
+variable "vsphere_password" {}
+variable "vsphere_server" {
+  default = "192.168.110.22" # vcsa-01a.corp.local
+}
+variable "vcenter_dc" {
+  default = "DC-SiteA"
+}
+
+variable "vcenter_cluster" {
+  default = "Compute-Cluster"
+}
+
+variable "vcenter_datastore" {
+  default = "dc-site-a-nfs01"
+}
+
+variable "vcenter_network" {
+  default = "LabNet"
+}
+
+variable "worker_count" {
+  default = "2"
+}
+
+variable "nodes_ip4_addresses" {
+  default = ["192.168.110.100/24", "192.168.110.101/24", "192.168.110.102/24"]
+}
+
+variable "gateway4" {
+  default = "192.168.110.1"
+}
+
+variable "nameservers" {
+//  default = "10.206.8.130, 10.206.8.130, 10.206.8.131"
+  default = "192.168.110.10, 8.8.8.8"
+}
+
+variable "K8s_version" {
+  default = "1.21.3-00" # k8s version
+}
+
+variable "K8s_network_pod" {
+  default = "10.0.0.0/16"
+}
+
+variable "K8s_cni_url" {
+  default = "https://github.com/vmware-tanzu/antrea/releases/download/v1.2.3/antrea.yml"
+}
+
+variable "Docker_version" {
+  default = "5:20.10.7~3-0~ubuntu-focal"
+}
+
+variable "ssh_key" {
+  type = map
+  default = {
+    algorithm            = "RSA"
+    rsa_bits             = "4096"
+    private_key_name = "ssh_private_key_tf_ubuntu"
+    file_permission      = "0600"
+  }
+}
+
+variable "dhcp" {
+  default = false
+}
+
+variable "content_library" {
+  default = {
+    basename = "content_library_tf_"
+    source_url = "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.ova"
+  }
+}
+
+variable "master" {
+  type = map
+  default = {
+    basename = "master-tf-"
+    username = "ubuntu"
+    cpu = 4
+    if_name = "ens192"
+    memory = 8192
+    disk = 20
+    wait_for_guest_net_routable = "false"
+    netplanFile = "/etc/netplan/50-cloud-init.yaml"
+  }
+}
+
+variable "worker" {
+  type = map
+  default = {
+    basename = "worker-tf-"
+    username = "ubuntu"
+    cpu = 2
+    if_name = "ens192"
+    memory = 4096
+    disk = 20
+    wait_for_guest_net_routable = "false"
+    netplanFile = "/etc/netplan/50-cloud-init.yaml"
+  }
+}

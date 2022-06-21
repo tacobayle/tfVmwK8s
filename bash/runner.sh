@@ -1,0 +1,1 @@
+cd ~/tfVmwK8s ; terraform destroy -auto-approve; cd .. ; rm -fr ~/tfVmwK8s ; git clone https://github.com/tacobayle/tfVmwK8s ; cd tfVmwK8s ; terraform init ; terraform apply -auto-approve

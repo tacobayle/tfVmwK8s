@@ -1,0 +1,63 @@
+#cloud-config
+users:
+  - default
+
+ssh_pwauth: True
+
+chpasswd:
+  list: |
+    ubuntu:${password}
+  expire: False
+
+hostname: ${hostname}
+
+write_files:
+  - content: |
+  - content: |
+      #!/bin/bash
+      run_cmd() {
+        retry=5
+        pause=60
+        attempt=0
+        echo "############################################################################################"
+        while [ $attempt -ne $retry ]; do
+          if eval "$@"; then
+            echo "$1 PASSED"
+            break
+          else
+            echo "$1 FAILED"
+          fi
+          ((attempt++))
+          sleep $pause
+          if [ $attempt -eq $retry ]; then
+            echo "$1 FAILED after $retry retries" | tee /tmp/cloudInitFailed.log
+          fi
+        done
+      }
+      run_cmd 'sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common'
+      run_cmd 'wget https://packages.cloud.google.com/apt/doc/apt-key.gpg'
+      run_cmd 'sudo apt-key add apt-key.gpg'
+      run_cmd 'wget https://baltocdn.com/helm/signing.asc'
+      run_cmd 'sudo apt-key add signing.asc'
+      run_cmd 'wget https://download.docker.com/linux/ubuntu/gpg'
+      run_cmd 'sudo apt-key add gpg'
+      run_cmd 'sudo add-apt-repository "deb https://apt.kubernetes.io/ kubernetes-xenial main"'
+      run_cmd 'sudo add-apt-repository "deb https://baltocdn.com/helm/stable/debian/ all main"'
+      run_cmd 'sudo add-apt-repository  "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"'
+      run_cmd 'apt-get install -y docker-ce=${Docker_version}'
+      run_cmd 'apt-get install -y kubeadm=${K8s_version} kubectl=${K8s_version} kubelet=${K8s_version}'
+      run_cmd 'apt-get install -y helm'
+      sudo usermod -a -G docker ubuntu
+      echo "cloud init done" | tee /tmp/cloudInitDone.log
+    path: /opt/bootstrap.sh
+    permissions: "0755"
+  - encoding: base64
+    content: ${network_config}
+    path: /etc/netplan/50-cloud-init.yaml
+  - content: |
+      network: {config: disabled}
+    path: /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+
+runcmd:
+  - netplan apply
+  - /opt/bootstrap.sh

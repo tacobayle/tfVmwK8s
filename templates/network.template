@@ -1,0 +1,10 @@
+network:
+  version: 2
+  ethernets:
+    ${if_name}:
+      dhcp4: false
+      addresses:
+        - ${ip4}/${network_prefix}
+      gateway4: ${gw4}
+      nameservers:
+        addresses: [${dns}]

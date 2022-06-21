@@ -1,0 +1,111 @@
+#
+# variables
+#
+variable "vsphere_username" {}
+variable "vsphere_password" {}
+variable "ubuntu_password" {
+  default = null
+}
+variable "vsphere_server" {
+  default = "n3-vcsa-01.altherr.info"
+}
+variable "vcenter_dc" {
+  default = "N3-DC"
+}
+
+variable "vcenter_cluster" {
+  default = "N3-Cluster1"
+}
+
+variable "vcenter_datastore" {
+  default = "vsanDatastore"
+}
+
+variable "vcenter_network" {
+  default = "N3-T1_Segment-Backend_10.23.6.0-24"
+}
+
+variable "worker_count" {
+  default = "2"
+}
+
+variable "nodes_ip4_addresses" {
+  default = "10.23.6.200, 10.23.6.201, 10.23.6.202"
+}
+
+variable "network_prefix" {
+  default = "24"
+}
+
+variable "gateway4" {
+  default = "10.23.6.1"
+}
+
+variable "nameservers" {
+  default = "172.18.0.15, 172.18.0.16"
+}
+
+variable "K8s_version" {
+  default = "1.21.3-00" # k8s version
+}
+
+variable "K8s_network_pod" {
+  default = "192.168.0.0/16"
+}
+
+variable "K8s_cni_url" {
+  default = "https://github.com/vmware-tanzu/antrea/releases/download/v1.2.3/antrea.yml"
+}
+
+variable "Docker_version" {
+  default = "5:20.10.7~3-0~ubuntu-focal"
+}
+
+variable "ssh_key" {
+  type = map
+  default = {
+    algorithm            = "RSA"
+    rsa_bits             = "4096"
+    private_key_name = "ssh_private_key_tf_ubuntu"
+    file_permission      = "0600"
+  }
+}
+
+variable "dhcp" {
+  default = false
+}
+
+variable "content_library" {
+  default = {
+    basename = "content_library_tf_"
+    source_url = "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.ova"
+  }
+}
+
+variable "master" {
+  type = map
+  default = {
+    basename = "master-tf-"
+    username = "ubuntu"
+    cpu = 2
+    if_name = "ens192"
+    memory = 8192
+    disk = 20
+    wait_for_guest_net_routable = "false"
+    netplanFile = "/etc/netplan/50-cloud-init.yaml"
+  }
+}
+
+variable "worker" {
+  type = map
+  default = {
+    basename = "worker-tf-"
+    username = "ubuntu"
+    cpu = 2
+    if_name = "ens192"
+    memory = 4096
+    disk = 20
+    wait_for_guest_net_routable = "false"
+    netplanFile = "/etc/netplan/50-cloud-init.yaml"
+  }
+}
