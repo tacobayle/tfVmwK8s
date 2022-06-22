@@ -56,7 +56,7 @@ write_files:
       echo "alias k=kubectl" | sudo tee -a /home/ubuntu/.profile
       echo "source <(kubectl completion bash | sed s/kubectl/k/g)" | sudo tee -a /home/ubuntu/.profile
       export KUBECONFIG=/etc/kubernetes/admin.conf
-      run_cmd 'kubectl apply -f ${K8s_cni_url}'
+      # run_cmd 'kubectl apply -f ${K8s_cni_url}'
       kubeadm token create --print-join-command | tee /home/ubuntu/join-command
       sudo chown ubuntu:ubuntu /home/ubuntu/join-command
       echo "cloud init done" | tee /tmp/cloudInitDone.log

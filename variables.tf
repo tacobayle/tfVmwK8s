@@ -58,9 +58,9 @@ variable "K8s_network_pod" {
   default = "192.168.0.0/16"
 }
 
-variable "K8s_cni_url" {
-  default = "https://github.com/vmware-tanzu/antrea/releases/download/v1.2.3/antrea.yml"
-}
+//variable "K8s_cni_url" {
+//  default = "https://github.com/vmware-tanzu/antrea/releases/download/v1.2.3/antrea.yml"
+//}
 
 variable "Docker_version" {
   default = "5:20.10.7~3-0~ubuntu-focal"

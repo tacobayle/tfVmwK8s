@@ -22,7 +22,7 @@ data "template_file" "master_userdata_static" {
     K8s_version = var.K8s_version
     Docker_version = var.Docker_version
     K8s_network_pod = var.K8s_network_pod
-    K8s_cni_url = var.K8s_cni_url
+//    K8s_cni_url = var.K8s_cni_url
   }
 }
 
@@ -37,7 +37,7 @@ data "template_file" "master_userdata_dhcp" {
     Docker_version = var.Docker_version
     if_name = var.master.if_name
     K8s_network_pod = var.K8s_network_pod
-    K8s_cni_url = var.K8s_cni_url
+//    K8s_cni_url = var.K8s_cni_url
   }
 }
 
