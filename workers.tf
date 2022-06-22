@@ -41,7 +41,7 @@ resource "vsphere_virtual_machine" "workers" {
   name             = "${var.worker.basename}${count.index}-${random_string.id.result}"
   datastore_id     = data.vsphere_datastore.datastore.id
   resource_pool_id = data.vsphere_resource_pool.pool.id
-  folder           = "${vsphere_folder.folder.path}_${random_string.id.result}"
+  folder           = vsphere_folder.folder.path
   network_interface {
     network_id = data.vsphere_network.network.id
   }
