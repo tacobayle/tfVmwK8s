@@ -46,7 +46,7 @@ resource "vsphere_virtual_machine" "master" {
   name             = "${var.master.basename}${random_string.id.result}"
   datastore_id     = data.vsphere_datastore.datastore.id
   resource_pool_id = data.vsphere_resource_pool.pool.id
-  folder           = vsphere_folder.folder.path
+  folder           = "${vsphere_folder.folder.path}_${random_string.id.result}"
   network_interface {
     network_id = data.vsphere_network.network.id
   }
