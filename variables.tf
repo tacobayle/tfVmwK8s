@@ -25,6 +25,10 @@ variable "vcenter_network" {
   default = "vxw-dvs-34-virtualwire-3-sid-6120002-wdc-06-vc12-avi-mgmt"
 }
 
+variable "vcenter_folder" {
+  default = "nic_tf_k8s"
+}
+
 variable "worker_count" {
   default = "3"
 }

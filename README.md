@@ -44,7 +44,7 @@ ESXi host - 7.0.0 Build 16324942
 
 ## Run the terraform plan:
 ```
-git clone https://github.com/tacobayle/terraformVmwK8s ; cd terraformVmwK8s ; terraform init ; terraform apply -auto-approve
+git clone https://github.com/tacobayle/tfVmwK8s ; cd terraformVmwK8s ; terraform init ; terraform apply -auto-approve
 ```
 
 ## Outputs:
