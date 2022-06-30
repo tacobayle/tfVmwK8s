@@ -94,7 +94,7 @@ resource "vsphere_virtual_machine" "master" {
 }
 
 resource "null_resource" "join_command" {
-  count = (var.dhcp == true ? 1 : 0)
+  count = 1
   depends_on = [vsphere_virtual_machine.master]
   provisioner "local-exec" {
     command = var.dhcp == true ? "scp -i ~/.ssh/${var.ssh_key.private_key_name}.pem -o StrictHostKeyChecking=no ubuntu@${vsphere_virtual_machine.master[0].default_ip_address}:/home/ubuntu/join-command join-command" : "scp -i ~/.ssh/${var.ssh_key.private_key_name}.pem -o StrictHostKeyChecking=no ubuntu@${split(",", replace(var.nodes_ip4_addresses, " ", ""))[count.index]}:/home/ubuntu/join-command join-command"
